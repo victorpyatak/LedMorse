@@ -9,20 +9,20 @@ void setup(){
 
 void dot(){
   digitalWrite(led , HIGH);
-  delay(200);
+  delay(300);
   digitalWrite(led , LOW);
-  //delay(200);
+  delay(300);
 }
 
 void dash(){
   digitalWrite(led ,HIGH);
   delay(600);
   digitalWrite(led , LOW);
-  delay(200);
+  delay(300);
 }
 
 void LetterSpace(){
-  delay(200);
+  delay(300);
 }
 void WordSpace(){
   delay(600);
@@ -54,7 +54,7 @@ String toMorse(String text , String morse[]){
 
 char readStr = 0;
 String text , morsecode;
-String temp;
+char temp;
 
 void loop(){
   if(Serial.available() > 0){
@@ -64,13 +64,28 @@ void loop(){
       text += readStr;
     }else{
       Serial.println(text);
-      Serial.print("Here will go Morse code : ");
-      Serial.print(toMorse(text , morse));
-      Serial.println();
-      text = "";
-      Serial.print("Decode : ");
+      Serial.print("Here will go Morse code:");
+      morsecode = toMorse(text , morse);
+      Serial.print(morsecode);
+      Serial.println(morsecode.length()-3);
+      for(int i = 0; i < morsecode.length()-1; i ++){
+        temp = morsecode[i];
+        if(temp == '.'){
+          dot();
+        }
+        if(temp == '-'){
+          dash();
+        }
+        
+       // temp = "";
+      }
 
+        LetterSpace();
+        Serial.println();
+        text = "";
+        Serial.print("Decode : ");
+
+      }
     }
-  }
   
 }
