@@ -9,35 +9,33 @@ void setup(){
 
 void dot(){
   digitalWrite(led , HIGH);
-  delay(300);
-  digitalWrite(led , LOW);
-  delay(300);
+  delay(100);
 }
 
 void dash(){
   digitalWrite(led ,HIGH);
-  delay(600);
-  digitalWrite(led , LOW);
-  delay(300);
+  delay(400);
 }
 
 void LetterSpace(){
-  delay(300);
+  digitalWrite(led , LOW);
+  delay(100);
 }
 void WordSpace(){
-  delay(600);
+  digitalWrite(led , LOW);
+  delay(400);
 }
-
 
 char alpha[] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
 String morse[] = { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.." };
 
-
 String toMorse(String , String[]);
 String toMorse(String text , String morse[]){
+  
   String morseValue ;
   String letterSpace = "  ";
   String wordSpace = "   ";
+
   for(int k = 0; k < text.length() ; k++){
     if(text[k] != ' '){
       text[k] = toupper(text[k]);
@@ -50,7 +48,6 @@ String toMorse(String text , String morse[]){
   }
   return morseValue ;
 }
-
 
 char readStr = 0;
 String text , morsecode;
@@ -68,6 +65,7 @@ void loop(){
       morsecode = toMorse(text , morse);
       Serial.print(morsecode);
       Serial.println(morsecode.length()-3);
+
       for(int i = 0; i < morsecode.length()-1; i ++){
         temp = morsecode[i];
         if(temp == '.'){
@@ -76,7 +74,10 @@ void loop(){
         if(temp == '-'){
           dash();
         }
-        
+        if(temp == ' '){
+          WordSpace();
+        }
+        LetterSpace();
        // temp = "";
       }
 
@@ -84,8 +85,6 @@ void loop(){
         Serial.println();
         text = "";
         Serial.print("Decode : ");
-
       }
     }
-  
 }
